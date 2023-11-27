@@ -1,0 +1,549 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "API 1.0.0",
+    "description": "Showing off swagger-ui-express",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    },
+    {
+      "url": "https://YOU_SERVER.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "UserAuth",
+      "description": "Authorization  endpoints"
+    },
+    {
+      "name": "Points",
+      "description": "Points endpoints"
+    }
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "tags": [
+          "UserAuth"
+        ],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "UserAuth"
+        ],
+        "summary": "User authentication",
+        "parameters": [],
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Upon successful login, a refreshToken cookie is set in the response. Example cookie: 'Set-Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRiNGZkMWIxNDkyMjM2YjhlOTRkNDQiLCJpYXQiOjE2OTk4NzE5Njh9.d2_cCAyJgFqyAqvxVrn3HjO9TgqEk-E2TvxGWYYdjYg; Path=/; HttpOnly;'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email doesn't exist / Password is wrong",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "tags": [
+          "UserAuth"
+        ],
+        "summary": "Logout",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/user/refresh": {
+      "post": {
+        "tags": [
+          "UserAuth"
+        ],
+        "summary": "Refresh Tokens",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRefreshTokensResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/points": {
+      "get": {
+        "tags": [
+          "Points"
+        ],
+        "summary": "Get all points current user",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllPoints"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized (invalid access token)",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Points"
+        ],
+        "summary": "Add point",
+        "requestBody": {
+          "description": "Add point",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePointRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешная операция",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "success"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Points"
+        ],
+        "summary": "Update point",
+        "requestBody": {
+          "description": "Update point",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePointRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешная операция",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "success"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Points"
+        ],
+        "summary": "Delete point",
+        "description": "Удаляет точку по заданному идентификатору.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Идентификатор точки для удаления"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление точки",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "deletePoint"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "request error"
+          },
+          "404": {
+            "description": "Point not found"
+          },
+          "500": {
+            "description": "server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "User1"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "N1@gmail.com"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          }
+        },
+        "example": {
+          "name": "User1",
+          "email": "N1@gmail.com"
+        }
+      },
+      "LoginRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "N1@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "description": "refreshToken cookie set upon successful login",
+            "example": "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRiNGZkMWIxNDkyMjM2YjhlOTRkNDQiLCJpYXQiOjE2OTk4NzE5Njh9.d2_cCAyJgFqyAqvxVrn3HjO9TgqEk-E2TvxGWYYdjYg; Path=/; HttpOnly;"
+          }
+        },
+        "example": {
+          "accessToken": "xxxxx.yyyyy.zzzzz"
+        }
+      },
+      "UserRefreshTokensResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "description": "refreshToken cookie set upon successful login",
+            "example": "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRiNGZkMWIxNDkyMjM2YjhlOTRkNDQiLCJpYXQiOjE2OTk4NzE5Njh9.d2_cCAyJgFqyAqvxVrn3HjO9TgqEk-E2TvxGWYYdjYg; Path=/; HttpOnly;"
+          }
+        },
+        "example": {
+          "accessToken": "xxxxx.yyyyy.zzzzz"
+        }
+      },
+      "GetAllPoints": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "img": {
+              "type": "string"
+            },
+            "owner": {
+              "type": "string"
+            }
+          }
+        },
+        "example": [
+          {
+            "_id": "642fe9e82510b50890683954",
+            "id": "1",
+            "title": "Дом с химерами",
+            "description": "Будинок Городецького.Известное здание в стиле модерн: резиденция президента, галереи и скульптуры животных.",
+            "img": "img.png",
+            "owner": "642fe9e82510b50890683954",
+            "coordinates": [
+              50.4339063,
+              30.5552953
+            ]
+          }
+        ]
+      },
+      "UpdatePointRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "required": true,
+            "type": "string",
+            "description": "Point id"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the points"
+          },
+          "description": {
+            "type": "string",
+            "description": "description"
+          },
+          "img": {
+            "type": "string",
+            "description": "Address img"
+          },
+          "coordinates": {
+            "type": [],
+            "description": "Array point coordinates"
+          }
+        },
+        "example": {
+          "id": "1",
+          "title": "Дом с химерами",
+          "description": "Будинок Городецького.Известное здание в стиле модерн: резиденция президента, галереи и скульптуры животных.",
+          "img": "img.png",
+          "coordinates": [
+            50.4339063,
+            30.5552953
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
