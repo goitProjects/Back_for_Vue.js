@@ -5,7 +5,7 @@ const app = require("./app");
 dotenv.config();
 
 const { DB_HOST } = process.env;
-// DB_HOST=mongodb://localhost:27017/cocktails
+
 async function start() {
   try {
     await mongoose.connect(DB_HOST);
