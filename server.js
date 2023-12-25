@@ -9,7 +9,7 @@ const { DB_HOST } = process.env;
 async function start() {
   try {
     await mongoose.connect(DB_HOST);
-mongoose.set('strictQuery', true);
+mongoose.set('strictQuery', false);
     console.log("Database connection successful");
 
     app.listen(3000, () => {
