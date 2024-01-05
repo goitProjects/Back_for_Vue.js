@@ -17,4 +17,6 @@ router.post("/refresh",refreshToken, ctrlWrapper(ctrl.refresh));
 
 router.get("/logout", authenticate, ctrlWrapper(ctrl.logout));
 
+router.get("/me", authenticate, ctrlWrapper(ctrl.userInfo));
+
 module.exports = router;

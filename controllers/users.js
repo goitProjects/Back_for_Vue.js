@@ -61,4 +61,11 @@ const logout = async (req, res) => {
   });
 };
 
-module.exports = { signup, login, refresh, logout };
+const userInfo = async (req, res) => {
+  delete req.user._id;
+  delete req.user.password;
+  delete req.user.refreshToken;
+  res.json(req.user);
+}
+
+module.exports = { signup, login, refresh, logout, userInfo };

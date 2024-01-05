@@ -10,10 +10,12 @@
     }
   },
   "servers": [
-      {
-      "url": "https://back-for-vue-js.onrender.com/"
+    {
+      "url": "http://localhost:3000"
+    },
+    {
+      "url": "https://YOU_SERVER.com/"
     }
- 
   ],
   "tags": [
     {
@@ -130,6 +132,39 @@
           "204": {
             "description": "Successful operation",
             "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": [
+          "UserAuth"
+        ],
+        "summary": "user info",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userInfo"
+                }
+              }
+            }
           },
           "404": {
             "description": "Not found",
@@ -445,6 +480,34 @@
         },
         "example": {
           "accessToken": "xxxxx.yyyyy.zzzzz"
+        }
+      },
+      "userInfo": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "658963be994ec97bf67c540e"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "N10@gmail.com"
+          },
+          "name": {
+            "type": "string",
+            "example": "User12"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-12-25T11:13:02.702Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-02T11:13:09.379Z"
+          }
         }
       },
       "UserRefreshTokensResponse": {
