@@ -62,10 +62,11 @@ const logout = async (req, res) => {
 };
 
 const userInfo = async (req, res) => {
-  delete req.user._id;
-  delete req.user.password;
-  delete req.user.refreshToken;
-  res.json(req.user);
+  const user = {
+    email: req.user.email,
+    name: req.user.name,
+  }
+  res.json(user);
 }
 
 module.exports = { signup, login, refresh, logout, userInfo };

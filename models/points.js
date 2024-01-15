@@ -1,11 +1,6 @@
 const { Schema, model } = require('mongoose');
 
 const pointsSchema = new Schema({
-    id: {
-        type: String,
-        required: [true, 'id is required'],
-        unique: true
-    },
     title: {
         type: String,
     },
