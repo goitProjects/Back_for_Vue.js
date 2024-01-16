@@ -11,10 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
-    },
-    {
-      "url": "https://YOU_SERVER.com/"
+      "url": "https://back-for-vue-js.onrender.com/"
     }
   ],
   "tags": [
@@ -30,9 +27,7 @@
   "paths": {
     "/user/register": {
       "post": {
-        "tags": [
-          "UserAuth"
-        ],
+        "tags": ["UserAuth"],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -74,9 +69,7 @@
     },
     "/user/login": {
       "post": {
-        "tags": [
-          "UserAuth"
-        ],
+        "tags": ["UserAuth"],
         "summary": "User authentication",
         "parameters": [],
         "requestBody": {
@@ -118,9 +111,7 @@
     },
     "/user/logout": {
       "get": {
-        "tags": [
-          "UserAuth"
-        ],
+        "tags": ["UserAuth"],
         "summary": "Logout",
         "security": [
           {
@@ -146,9 +137,7 @@
     },
     "/user/me": {
       "get": {
-        "tags": [
-          "UserAuth"
-        ],
+        "tags": ["UserAuth"],
         "summary": "user info",
         "security": [
           {
@@ -179,9 +168,7 @@
     },
     "/user/refresh": {
       "post": {
-        "tags": [
-          "UserAuth"
-        ],
+        "tags": ["UserAuth"],
         "summary": "Refresh Tokens",
         "security": [
           {
@@ -213,9 +200,7 @@
     },
     "/points": {
       "get": {
-        "tags": [
-          "Points"
-        ],
+        "tags": ["Points"],
         "summary": "Get all points current user",
         "security": [
           {
@@ -248,9 +233,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Points"
-        ],
+        "tags": ["Points"],
         "summary": "Add point",
         "requestBody": {
           "description": "Add point",
@@ -298,9 +281,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Points"
-        ],
+        "tags": ["Points"],
         "summary": "Update point",
         "requestBody": {
           "description": "Update point",
@@ -348,9 +329,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Points"
-        ],
+        "tags": ["Points"],
         "summary": "Delete point",
         "description": "Удаляет точку по заданному идентификатору.",
         "requestBody": {
@@ -365,9 +344,7 @@
                     "description": "Идентификатор точки для удаления"
                   }
                 },
-                "required": [
-                  "id"
-                ]
+                "required": ["id"]
               }
             }
           }
@@ -411,11 +388,7 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
+        "required": ["name", "email", "password"],
         "properties": {
           "name": {
             "type": "string",
@@ -452,10 +425,7 @@
         }
       },
       "LoginRequest": {
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "type": "object",
         "properties": {
           "email": {
@@ -551,10 +521,7 @@
             "description": "Будинок Городецького.Известное здание в стиле модерн: резиденция президента, галереи и скульптуры животных.",
             "img": "img.png",
             "owner": "642fe9e82510b50890683954",
-            "coordinates": [
-              50.4339063,
-              30.5552953
-            ]
+            "coordinates": [50.4339063, 30.5552953]
           }
         ]
       },
@@ -582,10 +549,7 @@
           "title": "Дом с химерами",
           "description": "Будинок Городецького.Известное здание в стиле модерн: резиденция президента, галереи и скульптуры животных.",
           "img": "img.png",
-          "coordinates": [
-            50.4339063,
-            30.5552953
-          ]
+          "coordinates": [50.4339063, 30.5552953]
         }
       },
       "UpdatePointRequest": {
@@ -618,10 +582,7 @@
           "title": "Дом с химерами",
           "description": "Будинок Городецького.Известное здание в стиле модерн: резиденция президента, галереи и скульптуры животных.",
           "img": "img.png",
-          "coordinates": [
-            50.4339063,
-            30.5552953
-          ]
+          "coordinates": [50.4339063, 30.5552953]
         }
       }
     },

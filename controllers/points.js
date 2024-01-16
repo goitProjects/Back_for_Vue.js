@@ -1,6 +1,7 @@
 const Points = require("../models/points");
 
 const getAllPoints = async (req, res) => {
+    console.log(req.user._id);
     const points = await Points.find({owner: req.user._id});
     res.status(200).json(points);
 };

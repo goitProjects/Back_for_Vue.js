@@ -29,15 +29,21 @@ const login = async (req, res, next) => {
     const { password, email } = req.body;
     const user = await User.findOne({ email });
     try {
-      const hashPassword = bcrypt.compare(password, user.password);
+      const hashPassword = await bcrypt.compare(password, user.password);
+      if (hashPassword) {
+        const { accessToken, refreshToken } = generateTokens(user);
+        await User.findByIdAndUpdate(user._id, { refreshToken });
+        res.cookie("refreshToken", refreshToken, { httpOnly: true });
+        res.json({ accessToken });
+      }
+      else {
+        return res.status(401).json({ message: "Invalid Email or password" });
+      }
     } catch {
       return res.status(401).json({ message: "Invalid Email or password" });
     }
 
-    const { accessToken, refreshToken } = generateTokens(user);
-    await User.findByIdAndUpdate(user._id, { refreshToken });
-    res.cookie("refreshToken", refreshToken, { httpOnly: true });
-    res.json({ accessToken });
+
   } catch (error) {
     next(error);
   }
