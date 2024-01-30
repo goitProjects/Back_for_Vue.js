@@ -1,9 +1,9 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const generateTokens = require("../helpers/generateToken");
-const { Conflict, Unauthorized } = require("http-errors");
-const jwt = require("jsonwebtoken");
+const { Conflict } = require("http-errors");
 
+// Register User and get him Token for access to some route action
 const signup = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -12,9 +12,11 @@ const signup = async (req, res, next) => {
       throw new Conflict(`Email ${email} in use`);
     }
     const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-    await User.create({ name, email, password: hashPassword });
-
+    const { accessToken, refreshToken } = generateTokens(user);
+    await User.create({ name, email, password: hashPassword, refreshToken });
+    res.cookie("refreshToken", refreshToken, { httpOnly: true });
     res.status(201).json({
+      accessToken,
       name,
       email,
     });
@@ -22,7 +24,6 @@ const signup = async (req, res, next) => {
     next(error);
   }
 };
-
 // Login User and get him Token for access to some route action
 const login = async (req, res, next) => {
   try {
@@ -35,19 +36,17 @@ const login = async (req, res, next) => {
         await User.findByIdAndUpdate(user._id, { refreshToken });
         res.cookie("refreshToken", refreshToken, { httpOnly: true });
         res.json({ accessToken });
-      }
-      else {
+      } else {
         return res.status(401).json({ message: "Invalid Email or password" });
       }
     } catch {
       return res.status(401).json({ message: "Invalid Email or password" });
     }
-
-
   } catch (error) {
     next(error);
   }
 };
+// Refresh User
 const refresh = async (req, res, next) => {
   try {
     const { accessToken, refreshToken } = generateTokens(req.user);
@@ -66,13 +65,13 @@ const logout = async (req, res) => {
     message: "User successfully logout",
   });
 };
-
+//  User Info
 const userInfo = async (req, res) => {
   const user = {
     email: req.user.email,
     name: req.user.name,
-  }
+  };
   res.json(user);
-}
+};
 
 module.exports = { signup, login, refresh, logout, userInfo };
