@@ -48,6 +48,7 @@ const deletePoint = async (req, res) => {
   try {
     const { id } = req.query;
     const point = await Points.findByIdAndDelete(id);
+    console.log(point);
     if (!point) {
       return res.status(404).json({ message: "Point not found" });
     }
