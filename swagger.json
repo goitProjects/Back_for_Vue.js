@@ -332,23 +332,17 @@
         "tags": ["Points"],
         "summary": "Delete point",
         "description": "Удаляет точку по заданному идентификатору.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "Идентификатор точки для удаления"
-                  }
-                },
-                "required": ["id"]
-              }
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор точки для удаления",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "security": [
           {
             "Bearer": []
@@ -364,7 +358,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "deletePoint"
+                      "example": "Point deleted successfully"
                     }
                   }
                 }

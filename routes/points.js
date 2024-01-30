@@ -1,8 +1,8 @@
 const express = require("express");
 
 const ctrl = require("../controllers/points");
-const {ctrlWrapper} = require("../helpers");
-const {validateBody, authenticate} = require("../middlewares");
+const { ctrlWrapper } = require("../helpers");
+const { validateBody, authenticate } = require("../middlewares");
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/", authenticate, ctrlWrapper(ctrl.getAllPoints));
 router.post("/", authenticate, ctrlWrapper(ctrl.addPoint));
-router.put("/",authenticate, ctrlWrapper(ctrl.updatePoint));
-router.delete("/",authenticate, ctrlWrapper(ctrl.deletePoint));
+router.put("/", authenticate, ctrlWrapper(ctrl.updatePoint));
+router.delete("/:id", authenticate, ctrlWrapper(ctrl.deletePoint));
 
 module.exports = router;
