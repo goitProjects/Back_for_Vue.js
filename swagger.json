@@ -414,6 +414,7 @@
           }
         },
         "example": {
+          "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMwZTczNDBiZWQxYmM4ZmViZDQzZGYiLCJpYXQiOjE3MDcxNDA5MTYsImV4cCI6MTcwNzE0NDUxNn0.iPsB3CdIa2RKoBe4SpT1bC9_d8y50BTW3VeKhqzqPu4",
           "name": "User1",
           "email": "N1@gmail.com"
         }
