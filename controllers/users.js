@@ -12,7 +12,7 @@ const signup = async (req, res, next) => {
       throw new Conflict(`Email ${email} in use`);
     }
     const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));    
-    const user = await User.create({ name, email, password: hashPassword, refreshToken });
+    const user = await User.create({ name, email, password: hashPassword});
     const { accessToken, refreshToken } = generateTokens(user);
     await User.findByIdAndUpdate(user._id, { refreshToken });
     res.cookie("refreshToken", refreshToken, { httpOnly: true });
