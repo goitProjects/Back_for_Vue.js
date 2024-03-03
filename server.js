@@ -4,7 +4,7 @@ const app = require("./app");
 
 dotenv.config();
 
-const { DB_HOST } = process.env;
+const { DB_HOST, PORT } = process.env;
 
 async function start() {
   try {
@@ -12,8 +12,8 @@ async function start() {
 
     console.log("Database connection successful");
 
-    app.listen(3000, () => {
-      console.log("Server running. Use our API on port: 3000");
+    app.listen(PORT, () => {
+      console.log("Server running. Use our API on port: ", PORT);
     });
   } catch (err) {
     console.error(err);
