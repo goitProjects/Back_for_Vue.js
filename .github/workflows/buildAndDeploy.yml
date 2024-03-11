@@ -46,7 +46,7 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Create .env file and build 
+    - name: Create .env and run install
       uses: actions/checkout@v2
     - run: |
         echo "
