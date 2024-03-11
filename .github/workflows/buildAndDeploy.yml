@@ -1,0 +1,45 @@
+#steps
+#clone 
+# add record A to domain 
+# create env
+# build npm i
+# deploy to server
+# create back service file
+# add nginx conf
+# start service 
+
+name: Deploy backend service 
+
+on:
+    push:
+        branches:
+          - main
+
+jobs:
+  build-backend-service:
+    runs-on: ubuntu-latest
+# оголошуємо всі змінні 
+    env:
+        #глобальні змінні організації 
+        SERVER_IP: ${{secrets.SERVER_IP}}
+        SERVER_USER: ${{secrets.SERVER_USER}}
+        AUTH_HOSTING_TOKEN: ${{secrets.AUTH_HOSTING_TOKEN}}
+        DOMAIN_ID: ${{secrets.DOMAIN_ID}}
+        PROJECT_FOLDER: "back-for-vue"
+        SUBDOMAIN: "git-test"
+        FULL_SUBDOMAIN: "back-for-vue.b.goit.study"
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup php
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+
+    - name: Add Domain Record
+      run: |
+        php -e scripts/addDomainRecord.php ${{SUBDOMAIN}} ${{SERVER_IP}} ${{AUTH_HOSTING_TOKEN}} ${{DOMAIN_ID}}
+
+
