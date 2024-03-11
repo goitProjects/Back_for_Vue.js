@@ -42,12 +42,9 @@ jobs:
 
     - name: Create folder on remote server
       run: |
-        echo "$PRIVATE_KEY" > key.pem
+        echo "$SSH_PRIVATE_KEY" > key.pem
         chmod 600 key.pem
-    
         ssh -i key.pem $SERVER_USER@SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
-      env:
-        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
