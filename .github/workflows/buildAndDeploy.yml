@@ -33,11 +33,16 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Use Variables in Another Job
+      run: |
+        echo "Using My variable TOKRN: $AUTH_HOSTING_TOKEN"
+        echo "Using Another variable DOMAIN_ID: $DOMAIN_ID"
+
     - name: Setup php
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
 
     - name: Add Domain Record
-      run: php -e scripts/addDomainRecord.php $env:SUBDOMAIN $env:SERVER_IP $env:AUTH_HOSTING_TOKEN $env:DOMAIN_ID
+      run: php -e scripts/addDomainRecord.php $SUBDOMAIN $SERVER_IP $AUTH_HOSTING_TOKEN $DOMAIN_ID
 
