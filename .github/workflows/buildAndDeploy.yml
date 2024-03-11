@@ -69,5 +69,6 @@ jobs:
         npm install --force
         echo "$SSH_PRIVATE_KEY" > key.pem
         chmod 600 key.pem
+        ssh-keyscan -H 80.211.143.197 >> $HOME/.ssh/known_hosts
         scp -r -i key.pem ./* $SERVER_USER@SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER
 
