@@ -54,10 +54,10 @@ jobs:
         CLOUDINARY_KEY=${{secrets.CLOUDINARY_KEY}}
         CLOUDINARY_SECRET=${{secrets.CLOUDINARY_SECRET}}
         SENDGRID_FROM_EMAIL=${{secrets.SENDGRID_FROM_EMAIL}}
-        SENDGRID_API_KEY=${{secrets.SENDGRID_API_KEY}}" > .env
+        SENDGRID_API_KEY=${{secrets.SENDGRID_API_KEY}}" > env
 
     - name: Create .env file and build 
       uses: actions/checkout@v2
     - run: |
-        ls -lh
+        cat env
 
