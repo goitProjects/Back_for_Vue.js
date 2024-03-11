@@ -42,7 +42,7 @@ jobs:
 
     - name: Create folder on remote server
       run: |
-        echo "$SSH_PRIVATE_KEY" > key.pem
+        echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
         chmod 600 key.pem
         ssh -i key.pem $SERVER_USER@SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
 
