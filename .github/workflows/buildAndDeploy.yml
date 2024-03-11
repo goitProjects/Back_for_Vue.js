@@ -39,7 +39,5 @@ jobs:
         php-version: '7.4'
 
     - name: Add Domain Record
-      run: |
-        php -e scripts/addDomainRecord.php ${{SUBDOMAIN}} ${{SERVER_IP}} ${{AUTH_HOSTING_TOKEN}} ${{DOMAIN_ID}}
-
+      run: php -e scripts/addDomainRecord.php $env:SUBDOMAIN $env:SERVER_IP $env:AUTH_HOSTING_TOKEN $env:DOMAIN_ID
 
