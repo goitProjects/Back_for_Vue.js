@@ -1,7 +1,5 @@
 #steps
 #clone  
-# create env
-# build npm i
 # deploy to server
 # create back service file
 # add nginx conf
@@ -24,7 +22,8 @@ jobs:
         SERVER_USER: ${{secrets.SERVER_USER}}
         AUTH_HOSTING_TOKEN: ${{secrets.AUTH_HOSTING_TOKEN}}
         DOMAIN_ID: ${{secrets.DOMAIN_ID}}
-        PROJECT_FOLDER: "back-for-vue"
+        SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+        PROJECT_FOLDER: "git-test"
         SUBDOMAIN: "git-test"
         FULL_SUBDOMAIN: "back-for-vue.b.goit.study"
         PORT: "3022"
@@ -40,6 +39,15 @@ jobs:
 
     - name: Add Domain Record
       run: php -e scripts/addDomainRecord.php $SUBDOMAIN $SERVER_IP $AUTH_HOSTING_TOKEN $DOMAIN_ID
+
+    - name: Create folder on remote server
+      run: |
+        echo "$PRIVATE_KEY" > key.pem
+        chmod 600 key.pem
+    
+        ssh -i key.pem $SERVER_USER@SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
+      env:
+        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -60,6 +68,8 @@ jobs:
         CLOUDINARY_SECRET=${{secrets.CLOUDINARY_SECRET}}
         SENDGRID_FROM_EMAIL=${{secrets.SENDGRID_FROM_EMAIL}}
         SENDGRID_API_KEY=${{secrets.SENDGRID_API_KEY}}" > .env
-        npm install 
-
+        npm install --force
+        echo "$SSH_PRIVATE_KEY" > key.pem
+        chmod 600 key.pem
+        scp -r -i key.pem ./* $SERVER_USER@SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER
 
