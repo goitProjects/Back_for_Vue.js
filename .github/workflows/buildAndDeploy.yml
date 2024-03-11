@@ -41,6 +41,11 @@ jobs:
     - name: Add Domain Record
       run: php -e scripts/addDomainRecord.php $SUBDOMAIN $SERVER_IP $AUTH_HOSTING_TOKEN $DOMAIN_ID
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
     - name: Create .env file and build 
       uses: actions/checkout@v2
     - run: |
@@ -54,10 +59,7 @@ jobs:
         CLOUDINARY_KEY=${{secrets.CLOUDINARY_KEY}}
         CLOUDINARY_SECRET=${{secrets.CLOUDINARY_SECRET}}
         SENDGRID_FROM_EMAIL=${{secrets.SENDGRID_FROM_EMAIL}}
-        SENDGRID_API_KEY=${{secrets.SENDGRID_API_KEY}}" > env
+        SENDGRID_API_KEY=${{secrets.SENDGRID_API_KEY}}" > .env
+        npm install 
 
-    - name: Create .env file and build 
-      uses: actions/checkout@v2
-    - run: |
-        cat env
 
