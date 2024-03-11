@@ -67,8 +67,9 @@ jobs:
         SENDGRID_FROM_EMAIL=${{secrets.SENDGRID_FROM_EMAIL}}
         SENDGRID_API_KEY=${{secrets.SENDGRID_API_KEY}}" > .env
         npm install --force
-        echo "$SSH_PRIVATE_KEY" > key.pem
+        echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
         chmod 600 key.pem
         mkdir -p $HOME/.ssh && ssh-keyscan -H 80.211.143.197 >> $HOME/.ssh/known_hosts
-        scp -r -i key.pem ./* $SERVER_USER@SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER
+        ssh -i key.pem $SERVER_USER@80.211.143.197 "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
+        scp -r -i key.pem ./* $SERVER_USER@80.211.143.197:/$SERVER_USER/$PROJECT_FOLDER
 
