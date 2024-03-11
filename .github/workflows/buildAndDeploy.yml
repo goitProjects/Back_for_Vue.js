@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 # оголошуємо всі змінні 
     env:
-        #глобальні змінні організації 
+        #глобальні змінні організації
         SERVER_IP: ${{secrets.SERVER_IP}}
         SERVER_USER: ${{secrets.SERVER_USER}}
         AUTH_HOSTING_TOKEN: ${{secrets.AUTH_HOSTING_TOKEN}}
