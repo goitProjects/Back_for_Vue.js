@@ -44,6 +44,7 @@ jobs:
       run: |
         echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
         chmod 600 key.pem
+        ssh-keyscan -H 80.211.143.197 >> $HOME/.ssh/known_hosts
         ssh -i key.pem $SERVER_USER@80.211.143.197 "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
 
     - name: Setup Node.js
