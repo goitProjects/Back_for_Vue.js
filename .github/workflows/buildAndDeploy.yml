@@ -69,7 +69,8 @@ jobs:
         npm install --force
         echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
         chmod 600 key.pem
-        mkdir -p $HOME/.ssh && ssh-keyscan -H 80.211.143.197 >> $HOME/.ssh/known_hosts
+        mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
         ssh -i key.pem $SERVER_USER@$SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
         rsync -rav -e "ssh -i key.pem" --delete-after --exclude=node_modules/ ./ $SERVER_USER@$SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER/
-
+        ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 start /$SERVER_USER/$PROJECT_FOLDER/sercer.js --name $PROJECT_FOLDER --watch" 
+        
