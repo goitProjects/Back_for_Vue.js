@@ -24,7 +24,6 @@ jobs:
         PROJECT_FOLDER: "git-test"
         SUBDOMAIN: "git-test"
         FULL_SUBDOMAIN: "git-test.b.goit.study"
-        NGINX_CONF: $FULL_SUBDOMAIN.conf
         PORT: "3022"
 
     steps:
@@ -81,6 +80,6 @@ jobs:
           chmod 600 key.pem
           mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
           ssh -i key.pem $SERVER_USER@$SERVER_IP "/usr/bin/node /$SERVER_USER/backendScripts/createNginxConf.js $FULL_SUBDOMAIN $PORT"
-          ssh -i key.pem $SERVER_USER@$SERVER_IP "cp ./backendScripts/$NGINX_CONF /etc/nginx/conf.d"
+          ssh -i key.pem $SERVER_USER@$SERVER_IP "cp ./backendScripts/$FULL_SUBDOMAIN.conf /etc/nginx/conf.d"
           sleep 60
           ssh -i key.pem $SERVER_USER@$SERVER_IP "certbot --nginx -d $FULL_SUBDOMAIN"
