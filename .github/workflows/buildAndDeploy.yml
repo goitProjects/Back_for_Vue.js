@@ -74,7 +74,7 @@ jobs:
         rsync -rav -e "ssh -i key.pem" --delete-after --exclude=node_modules/ ./ $SERVER_USER@$SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER/
         ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 start /$SERVER_USER/$PROJECT_FOLDER/server.js --name $PROJECT_FOLDER --watch" 
 
-    - name: Create .env and run install
+    - name: Create Nginx conf
       uses: actions/checkout@v2
     - run: |
           echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
