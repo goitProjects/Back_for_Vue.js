@@ -1,6 +1,5 @@
 #steps
 #clone  
-# create back service file
 # add nginx conf
 # start service 
 
@@ -24,7 +23,8 @@ jobs:
         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
         PROJECT_FOLDER: "git-test"
         SUBDOMAIN: "git-test"
-        FULL_SUBDOMAIN: "back-for-vue.b.goit.study"
+        FULL_SUBDOMAIN: "git-test.b.goit.study"
+        NGINX_CONF: $FULL_SUBDOMAIN.conf
         PORT: "3022"
 
     steps:
@@ -73,4 +73,14 @@ jobs:
         ssh -i key.pem $SERVER_USER@$SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
         rsync -rav -e "ssh -i key.pem" --delete-after --exclude=node_modules/ ./ $SERVER_USER@$SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER/
         ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 start /$SERVER_USER/$PROJECT_FOLDER/server.js --name $PROJECT_FOLDER --watch" 
-        
+
+    - name: Create .env and run install
+      uses: actions/checkout@v2
+    - run: |
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
+          chmod 600 key.pem
+          mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
+          ssh -i key.pem $SERVER_USER@$SERVER_IP "node /$SERVER_USER/backendScripts/createNginxConf.js $FULL_SUBDOMAIN $PORT"
+          ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$NGINX_CONF /etc/nginx/conf.d"
+          sleep 60
+          ssh -i key.pem $SERVER_USER@$SERVER_IP "certbot --nginx -d $FULL_SUBDOMAIN"
