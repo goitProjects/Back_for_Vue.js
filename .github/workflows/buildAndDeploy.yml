@@ -1,6 +1,5 @@
 #steps
 #clone  
-# deploy to server
 # create back service file
 # add nginx conf
 # start service 
@@ -44,8 +43,8 @@ jobs:
       run: |
         echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
         chmod 600 key.pem
-        mkdir -p $HOME/.ssh && ssh-keyscan -H 80.211.143.197 >> $HOME/.ssh/known_hosts
-        ssh -i key.pem $SERVER_USER@80.211.143.197 "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
+        mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
+        ssh -i key.pem $SERVER_USER@$SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -66,10 +65,11 @@ jobs:
         CLOUDINARY_SECRET=${{secrets.CLOUDINARY_SECRET}}
         SENDGRID_FROM_EMAIL=${{secrets.SENDGRID_FROM_EMAIL}}
         SENDGRID_API_KEY=${{secrets.SENDGRID_API_KEY}}" > .env
+        ls -la
         npm install --force
         echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
         chmod 600 key.pem
         mkdir -p $HOME/.ssh && ssh-keyscan -H 80.211.143.197 >> $HOME/.ssh/known_hosts
-        ssh -i key.pem $SERVER_USER@80.211.143.197 "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
-        scp -r -i key.pem ./* $SERVER_USER@80.211.143.197:/$SERVER_USER/$PROJECT_FOLDER
+        ssh -i key.pem $SERVER_USER@$SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
+        scp -r -i key.pem ./* $SERVER_USER@$SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER
 
