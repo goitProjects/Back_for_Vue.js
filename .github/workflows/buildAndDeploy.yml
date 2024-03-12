@@ -80,7 +80,7 @@ jobs:
           echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
           chmod 600 key.pem
           mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
-          ssh -i key.pem $SERVER_USER@$SERVER_IP "node /$SERVER_USER/backendScripts/createNginxConf.js $FULL_SUBDOMAIN $PORT"
+          ssh -i key.pem $SERVER_USER@$SERVER_IP "/usr/bin/node /$SERVER_USER/backendScripts/createNginxConf.js $FULL_SUBDOMAIN $PORT"
           ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$NGINX_CONF /etc/nginx/conf.d"
           sleep 60
           ssh -i key.pem $SERVER_USER@$SERVER_IP "certbot --nginx -d $FULL_SUBDOMAIN"
