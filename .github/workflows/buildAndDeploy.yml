@@ -1,5 +1,3 @@
-# start service 
-
 name: Deploy backend service 
 
 on:
@@ -72,7 +70,7 @@ jobs:
 
           if [ -z "$status" ]; then
             echo "Project not running. Starting..."
-            ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 -f start /$SERVER_USER/$PROJECT_FOLDER/server.js --name $PROJECT_FOLDER --watch"
+            ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 -f start /$SERVER_USER/$PROJECT_FOLDER/server.js --name $PROJECT_FOLDER --watch -- -p $PORT"
           else
             echo "Project already running."
           fi
