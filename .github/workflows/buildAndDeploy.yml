@@ -1,6 +1,3 @@
-#steps
-#clone  
-# add nginx conf
 # start service 
 
 name: Deploy backend service 
@@ -71,7 +68,14 @@ jobs:
         mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
         ssh -i key.pem $SERVER_USER@$SERVER_IP "mkdir -p /$SERVER_USER/$PROJECT_FOLDER"
         rsync -rav -e "ssh -i key.pem" --delete-after --exclude=node_modules/ ./ $SERVER_USER@$SERVER_IP:/$SERVER_USER/$PROJECT_FOLDER/
-        ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 -f start /$SERVER_USER/$PROJECT_FOLDER/server.js --name $PROJECT_FOLDER --watch" 
+        status=$(ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 list | grep $PROJECT_FOLDER")
+
+          if [ -z "$status" ]; then
+            echo "Project not running. Starting..."
+            ssh -i key.pem $SERVER_USER@$SERVER_IP "pm2 -f start /$SERVER_USER/$PROJECT_FOLDER/server.js --name $PROJECT_FOLDER --watch"
+          else
+            echo "Project already running."
+          fi
 
     - name: Create Nginx conf
       uses: actions/checkout@v2
