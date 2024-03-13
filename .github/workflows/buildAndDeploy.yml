@@ -16,9 +16,9 @@ jobs:
         AUTH_HOSTING_TOKEN: ${{secrets.AUTH_HOSTING_TOKEN}}
         DOMAIN_ID: ${{secrets.DOMAIN_ID}}
         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-        PROJECT_FOLDER: "git-test"
-        SUBDOMAIN: "git-test.b"
-        FULL_SUBDOMAIN: "git-test.b.goit.study"
+        PROJECT_FOLDER: "back-for-vue"
+        SUBDOMAIN: "back-for-vue.b"
+        FULL_SUBDOMAIN: "back-for-vue.b.goit.study"
         PORT: "3022"
 
     steps:
