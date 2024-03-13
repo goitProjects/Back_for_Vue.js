@@ -19,7 +19,7 @@ jobs:
         DOMAIN_ID: ${{secrets.DOMAIN_ID}}
         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
         PROJECT_FOLDER: "git-test"
-        SUBDOMAIN: "git-test"
+        SUBDOMAIN: "git-test.b"
         FULL_SUBDOMAIN: "git-test.b.goit.study"
         PORT: "3022"
 
@@ -80,10 +80,27 @@ jobs:
     - name: Create Nginx conf
       uses: actions/checkout@v2
     - run: |
-          echo "${{secrets.SSH_PRIVATE_KEY}}" > key.pem
-          chmod 600 key.pem
-          mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
-          ssh -i key.pem $SERVER_USER@$SERVER_IP "cd /$SERVER_USER/backendScripts && node createNginxConf.js $FULL_SUBDOMAIN $PORT"
-          ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$FULL_SUBDOMAIN.conf /etc/nginx/conf.d"
-          sleep 60
-          ssh -i key.pem $SERVER_USER@$SERVER_IP "certbot --nginx -d $FULL_SUBDOMAIN"
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+            chmod 600 key.pem
+            mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
+        
+            # Перевірка, чи файл конфігурації вже існує у /etc/nginx/conf.d
+            if ssh -i key.pem $SERVER_USER@$SERVER_IP "test -f /etc/nginx/conf.d/$FULL_SUBDOMAIN.conf"; then
+              echo "Config file already exists in /etc/nginx/conf.d"
+            else
+              # Якщо файлу немає, створюємо його
+              ssh -i key.pem $SERVER_USER@$SERVER_IP "cd /$SERVER_USER/backendScripts && node createNginxConf.js $FULL_SUBDOMAIN $PORT"
+              ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$FULL_SUBDOMAIN.conf /etc/nginx/conf.d"
+              ssh -i key.pem $SERVER_USER@$SERVER_IP "nginx -t && nginx -s reload"
+            fi
+        
+            # Перевірка, чи файл SSL-сертифіката вже існує
+            if ssh -i key.pem $SERVER_USER@$SERVER_IP "test -f /etc/letsencrypt/live/$FULL_SUBDOMAIN/fullchain.pem"; then
+              echo "SSL certificate already exists"
+            else
+              # Якщо сертифікату немає, викликаємо Certbot для налаштування SSL
+              sleep 60
+              ssh -i key.pem $SERVER_USER@$SERVER_IP "certbot --nginx -d $FULL_SUBDOMAIN"
+            fi
+  
+        
