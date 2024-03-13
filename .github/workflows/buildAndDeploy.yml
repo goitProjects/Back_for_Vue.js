@@ -75,8 +75,8 @@ jobs:
             mkdir -p $HOME/.ssh && ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
             ssh -i key.pem $SERVER_USER@$SERVER_IP "cd /$SERVER_USER/backendScripts && node createBackendServices.js $PROJECT_FOLDER"
             ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$PROJECT_FOLDER.service /etc/systemd/system/ && systemctl enable $PROJECT_FOLDER.service && systemctl start $PROJECT_FOLDER.service"
-            ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$PROJECT_FOLDER.service /etc/systemd/system/ && systemctl enable $PROJECT_FOLDER-watcher.path && systemctl start $PROJECT_FOLDER-watcher.path"
-            ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$PROJECT_FOLDER.service /etc/systemd/system/ && systemctl enable $PROJECT_FOLDER-watcher.service && systemctl start $PROJECT_FOLDER-watcher.service"
+            ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$PROJECT_FOLDER-watcher.path /etc/systemd/system/ && systemctl enable $PROJECT_FOLDER-watcher.path && systemctl start $PROJECT_FOLDER-watcher.path"
+            ssh -i key.pem $SERVER_USER@$SERVER_IP "cp /$SERVER_USER/backendScripts/$PROJECT_FOLDER-watcher.service /etc/systemd/system/ && systemctl enable $PROJECT_FOLDER-watcher.service && systemctl start $PROJECT_FOLDER-watcher.service"
 
     - name: Create Nginx conf
       uses: actions/checkout@v2
