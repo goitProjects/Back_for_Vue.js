@@ -51,7 +51,8 @@ jobs:
         echo "
         PORT=$PORT
         DB_HOST=${{secrets.DB_HOST}}
-        ACCESS_SECRET_KEY=${{secrets.ACCESS_SECRET_KEY}}
+        SECRET_KEY=${{secrets.SECRET_KEY}}
+        ACCESS_TOKEN_EXPIRES_IN=${{secrets.ACCESS_TOKEN_EXPIRES_IN}}
         JWT_SECRET=${{secrets.JWT_SECRET}}
         REFRESH_SECRET_KEY=${{secrets.REFRESH_SECRET_KEY}}
         CLOUDINARY_NAME=${{secrets.CLOUDINARY_NAME}} 
